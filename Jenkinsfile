@@ -12,9 +12,20 @@ pipeline {
     stage('Build Docker Image'){
       steps {
         script {
-          docker.build 'revvikram/spartanproject2'
+          DOCKER_IMAGE = docker.build 'revvikram/spartanproject2'
         }
       }
+    }
+
+    stage('push to docker hub'){
+      steps {
+        script {
+          docker.withRegistry('','docker_hub_cred'){
+            DOCKER_IMAGE.push()
+            
+          }
+       }
+     }
     }
   }
 }
