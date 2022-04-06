@@ -7,12 +7,18 @@ pipeline {
   }
 
   stages {
-    stage('cloning the project from github'){
+     stage('Cloning the project from GitHub'){
       steps {
-        git branch: 'main',
-        url: 'https://github.com/RevVikram/spartanproject2.git'
-      }
+        checkout([
+          $class: 'GitSCM', branches: [[name: '*/main']],
+          serRemoteConfigs: [[
+            url: 'git@github.com:oabu-sg/rest_mongo.git',
+            credentialsId: 'ssh_git_cred'
+          ]]
+        ])
     }
+  }
+  
 
     stage('Build Docker Image'){
       steps {
@@ -20,6 +26,15 @@ pipeline {
           DOCKER_IMAGE = docker.build IMAGE_NAME
         }
       }
+    }
+
+    stage('Testing the code'){
+      steps{
+        sh '''
+          docker run $IMAGE_NAME pytest
+        '''
+    
+    }
     }
 
     stage('push to docker hub'){
