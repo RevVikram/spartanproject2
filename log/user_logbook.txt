@@ -1,0 +1,6 @@
+User searched home page
+User added spartan
+User wants to add a Spartan to the database
+User successfully added a Spartan, vik rose, with Spartan ID: 34, to the database
+User wants to add a Spartan to the database
+User successfully added a Spartan, vik rose, with Spartan ID: 4, to the database
