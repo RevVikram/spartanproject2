@@ -1,8 +1,9 @@
 pipeline {
   agent any
-  
+
  environment {
   IMAGE_NAME ="revvikram/spartanproject2:1." + "$BUILD_NUMBER"
+  DOCKER_CREDENTIALS = 'docker_hub_cred'
   }
 
   stages {
@@ -24,9 +25,9 @@ pipeline {
     stage('push to docker hub'){
       steps {
         script {
-          docker.withRegistry('','docker_hub_cred'){
+          docker.withRegistry('',DOCKER_CREDENTIALS){
             DOCKER_IMAGE.push()
-            
+
           }
        }
      }
