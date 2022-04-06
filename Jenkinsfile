@@ -11,7 +11,7 @@ pipeline {
 
     stage('Build Docker Image'){
      steps {
-      scripts {
+      script {
         docker.build 'RevVikram/spartanproject2'
       }
      }
