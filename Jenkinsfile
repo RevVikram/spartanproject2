@@ -12,13 +12,13 @@ pipeline {
         checkout([
           $class: 'GitSCM', branches: [[name: '*/main']],
           serRemoteConfigs: [[
-            url: 'git@github.com:oabu-sg/rest_mongo.git',
+            url: 'git@github.com:RevVikram/spartanproject2.git',
             credentialsId: 'ssh_git_cred'
           ]]
         ])
     }
   }
-  
+
 
     stage('Build Docker Image'){
       steps {
@@ -28,13 +28,20 @@ pipeline {
       }
     }
 
-    stage('Testing the code'){
+    stage('Testing the Code'){
       steps{
-        sh '''
-          docker run $IMAGE_NAME pytest
-        '''
-    
-    }
+        script {
+          sh '''
+            docker run --rm -v $PWD/test-results:/reports --workdir /app $IMAGE_NAME pytest -v --junitxml=/reports/results.xml
+          '''
+        }
+      }
+
+      post {
+        always {
+          junit testResults: '**/test-results/*.xml'
+        }
+      }
     }
 
     stage('push to docker hub'){
