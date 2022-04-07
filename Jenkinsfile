@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    IMAGE_NAME = "revvikram/rest_mongo:1." + "$BUILD_NUMBER"
+    IMAGE_NAME = "revvikram/spartanproject2:1." + "$BUILD_NUMBER"
     DOCKER_CREDENTIALS = 'docker_hub_cred'
   }
   stages {
@@ -42,7 +42,7 @@ pipeline {
         }
       }
     }
-    
+
     stage('Push to Docker Hub'){
       steps {
         script {
